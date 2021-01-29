@@ -1,0 +1,32 @@
+#----------------For modem connecting---------用于局域网访问光猫，可不配，和光猫一个网段
+ifconfig eth0:1 192.168.1.200 netmask 255.255.255.0
+
+
+#----------------DHCP for moden--------------------#
+#盒子连光猫，配置一个不和局域网冲突的网段，随意，用来给盒子提供dhcp option
+ip addr add 192.168.99.1/24 dev eth0
+iptables -I INPUT -i eth0 -m state --state NEW -j ACCEPT
+iptables -I FORWARD -i eth0 -o ppp0 -j ACCEPT
+
+vconfig set_name_type DEV_PLUS_VID_NO_PAD
+vconfig add eth0 85
+
+brctl addbr vlan85
+brctl addif vlan85 eth0.85
+
+#vlan85可以静态配置，可以dhcp获取，二选一,自己打开注释
+#####Static############
+ifconfig vlan85 192.168.55.2 up
+
+###########dhcp#########
+#ps w|grep udhcpc|grep vlan85|awk '{print "kill -9 "$1}'|sh
+#/sbin/udhcpc -i vlan85 -p /var/run/udhcpc10.pid -s /jffs/udhcpc.sh
+
+
+#--------------Open Udpxy--------------------#
+iptables -I INPUT -d 224.0.0.0/4 -p udp -m udp ! --dport 1900 -j ACCEPT
+iptables -I INPUT -d 224.0.0.0/4 -p igmp -j ACCEPT
+sleep 16
+killall udpxy
+#/jffs/scripts/udpxy -B 2097152 -m vlan85 -p 4022 -c 5
+/usr/sbin/udpxy -m vlan85 -p 4022 -c 10
