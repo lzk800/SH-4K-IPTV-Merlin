@@ -1,6 +1,6 @@
 #!/bin/sh
 /koolshare/bin/ks-nat-start.sh start_nat
 sh /koolshare/ss/nat-start.sh start_all
-sh /jffs/scripts/iptv-start
 cp /jffs/configs/dnsmasq.add/iptv.conf /jffs/configs/dnsmasq.d/
 service restart_dnsmasq
+sh /jffs/scripts/iptv-start
