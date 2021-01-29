@@ -37,7 +37,7 @@ ping 127.0.0.1 -c 2 > /dev/null
 echo
 
 #脚本提示
-echo 正添加IPTV运行脚本
+echo 正添加udpxy脚本
 #移动到脚本目录
 cd /jffs
 #删除旧配置文件
