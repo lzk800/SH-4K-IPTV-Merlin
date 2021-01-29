@@ -42,7 +42,7 @@ echo 正添加udpxy脚本
 cd /jffs
 #删除旧配置文件
 echo 正在删除旧文件
-rm -rf iptv.conf
+rm -rf udhcpc.sh
 #下载新配置文件
 echo 正在下载新文件
 wget -q --no-check-certificate https://raw.githubusercontent.com/lzk800/SH-4K-IPTV-Merlin/master/udhcpc.sh
